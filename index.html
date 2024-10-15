@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker - Nivel Up!</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center">Habit Tracker - Nivel Up!</h1>
+
+        <!-- Sección de avatar -->
+        <div id="avatar" class="mt-6 flex justify-center">
+            <img src="images/default-avatar.png" id="user-avatar" class="w-24 h-24 rounded-full">
+        </div>
+
+        <!-- Sección de nivel y progreso -->
+        <div class="mt-6 bg-gray-800 p-4 rounded-md text-center">
+            <p class="text-lg">Nivel: <span id="level">1</span></p>
+            <p class="text-lg">Puntos: <span id="points">0</span> / 100</p>
+            <div class="bg-gray-600 h-4 w-full rounded-full mt-2">
+                <div id="progress-bar" class="bg-green-400 h-4 rounded-full" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Sección de rango -->
+        <div class="mt-6 bg-gray-800 p-4 rounded-md text-center">
+            <p class="text-lg">Rango: <span id="rank">Principiante</span></p>
+        </div>
+
+        <!-- Formulario para agregar hábitos -->
+        <div class="mt-6">
+            <input id="habit-input" type="text" placeholder="Agregar hábito" class="p-2 w-full rounded-md text-black">
+            <button id="add-habit-btn" class="mt-2 bg-blue-500 p-2 rounded-md w-full">Agregar Hábito</button>
+        </div>
+
+        <!-- Lista de hábitos -->
+        <ul id="habit-list" class="mt-6 space-y-2"></ul>
+
+        <!-- Notificación de nivel -->
+        <div id="level-up-notification" class="hidden bg-yellow-400 text-black p-4 mt-6 rounded-md text-center">
+            ¡Felicidades! Has subido de nivel.
+        </div>
+
+        <!-- Logros -->
+        <div id="achievements" class="mt-6 bg-gray-700 p-4 rounded-md">
+            <h2 class="text-xl font-bold">Logros</h2>
+            <ul id="achievements-list" class="mt-2 space-y-2"></ul>
+        </div>
+
+        <!-- Sección de la tienda -->
+        <div id="store" class="mt-6 bg-gray-800 p-4 rounded-md">
+            <h2 class="text-xl font-bold">Tienda Virtual</h2>
+            <p>Monedas: <span id="coins">0</span></p>
+            <ul class="mt-2 space-y-2">
+                <li class="bg-gray-700 p-2 rounded-md flex justify-between items-center">
+                    <span>Nuevo Avatar</span>
+                    <button class="buy-btn bg-yellow-500 p-1 rounded-md">Comprar (50 monedas)</button>
+                </li>
+                <li class="bg-gray-700 p-2 rounded-md flex justify-between items-center">
+                    <span>Tema Oscuro</span>
+                    <button class="buy-btn bg-yellow-500 p-1 rounded-md">Comprar (100 monedas)</button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Sección de misiones diarias -->
+        <div id="daily-missions" class="mt-6 bg-gray-800 p-4 rounded-md">
+            <h2 class="text-xl font-bold">Misiones Diarias</h2>
+            <ul id="mission-list" class="mt-2 space-y-2">
+                <li class="bg-gray-700 p-2 rounded-md">
+                    <span>Camina 10,000 pasos</span>
+                    <button class="complete-mission-btn bg-green-500 p-1 rounded-md">Completar</button>
+                </li>
+                <li class="bg-gray-700 p-2 rounded-md">
+                    <span>Medita por 15 minutos</span>
+                    <button class="complete-mission-btn bg-green-500 p-1 rounded-md">Completar</button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Sección de historial -->
+        <div id="history" class="mt-6 bg-gray-800 p-4 rounded-md">
+            <h2 class="text-xl font-bold">Historial de Hábitos</h2>
+            <ul id="history-list" class="mt-2 space-y-2"></ul>
+        </div>
+
+    </div>
+
+    <!-- Archivos de audio para los sonidos -->
+    <audio id="complete-sound" src="complete.mp3"></audio>
+    <audio id="level-up-sound" src="level-up.mp3"></audio>
+
+    <!-- Script principal -->
+    <script src="app.js"></script>
+</body>
+</html>
