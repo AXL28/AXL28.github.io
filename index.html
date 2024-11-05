@@ -12,9 +12,13 @@
         <h1 class="text-3xl font-bold text-center">Habit Tracker - Nivel Up!</h1>
 
         <!-- Sección de avatar -->
-        <div id="avatar" class="mt-6 flex justify-center">
-            <img src="images/default-avatar.png" id="user-avatar" class="w-24 h-24 rounded-full">
+        <div id="avatar" class="mt-6 flex flex-col items-center">
+            <img src="images/default-avatar.png" id="user-avatar" class="w-24 h-24 rounded-full mb-4">
+            <select id="avatar-select" class="p-2 mt-2 rounded-md text-black">
+                <!-- Las opciones se llenarán dinámicamente desde app.js -->
+            </select>
         </div>
+        
 
         <!-- Sección de nivel y progreso -->
         <div class="mt-6 bg-gray-800 p-4 rounded-md text-center">
@@ -36,6 +40,11 @@
             <button id="add-habit-btn" class="mt-2 bg-blue-500 p-2 rounded-md w-full">Agregar Hábito</button>
         </div>
 
+        <!-- Campo para el tiempo en minutos -->
+        <div class="mt-2">
+            <input id="time-input" type="number" placeholder="Tiempo en minutos" class="p-2 w-full rounded-md text-black">
+        </div>
+
         <!-- Lista de hábitos -->
         <ul id="habit-list" class="mt-6 space-y-2"></ul>
 
@@ -50,34 +59,12 @@
             <ul id="achievements-list" class="mt-2 space-y-2"></ul>
         </div>
 
-        <!-- Sección de la tienda -->
+        <!-- Sección de la tienda (solo con avatares) -->
         <div id="store" class="mt-6 bg-gray-800 p-4 rounded-md">
             <h2 class="text-xl font-bold">Tienda Virtual</h2>
             <p>Monedas: <span id="coins">0</span></p>
-            <ul class="mt-2 space-y-2">
-                <li class="bg-gray-700 p-2 rounded-md flex justify-between items-center">
-                    <span>Nuevo Avatar</span>
-                    <button class="buy-btn bg-yellow-500 p-1 rounded-md">Comprar (50 monedas)</button>
-                </li>
-                <li class="bg-gray-700 p-2 rounded-md flex justify-between items-center">
-                    <span>Tema Oscuro</span>
-                    <button class="buy-btn bg-yellow-500 p-1 rounded-md">Comprar (100 monedas)</button>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Sección de misiones diarias -->
-        <div id="daily-missions" class="mt-6 bg-gray-800 p-4 rounded-md">
-            <h2 class="text-xl font-bold">Misiones Diarias</h2>
-            <ul id="mission-list" class="mt-2 space-y-2">
-                <li class="bg-gray-700 p-2 rounded-md">
-                    <span>Camina 10,000 pasos</span>
-                    <button class="complete-mission-btn bg-green-500 p-1 rounded-md">Completar</button>
-                </li>
-                <li class="bg-gray-700 p-2 rounded-md">
-                    <span>Medita por 15 minutos</span>
-                    <button class="complete-mission-btn bg-green-500 p-1 rounded-md">Completar</button>
-                </li>
+            <ul id="store-items" class="mt-2 space-y-2">
+                <!-- Aquí se llenarán los items de la tienda dinámicamente desde app.js -->
             </ul>
         </div>
 
@@ -86,6 +73,9 @@
             <h2 class="text-xl font-bold">Historial de Hábitos</h2>
             <ul id="history-list" class="mt-2 space-y-2"></ul>
         </div>
+
+        <!-- Botón para reiniciar progreso -->
+        <button id="reset-progress-btn" class="mt-4 bg-red-500 p-2 rounded-md w-full">Reiniciar Todo el Progreso</button>
 
     </div>
 
