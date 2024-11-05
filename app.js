@@ -79,18 +79,6 @@ function addHabit() {
     const completeBtn = habitItem.querySelector(".complete-btn");
     completeBtn.addEventListener("click", () => completeHabit(habitItem, habitText, true, startTime));
 
-    const timeInput = document.getElementById("time-input");
-
-    // Prevenir valores no numéricos y negativos
-    timeInput.addEventListener("input", () => {
-        // Remueve caracteres no numéricos y asegura que el valor sea al menos 1
-        timeInput.value = timeInput.value.replace(/[^0-9]/g, ""); // Permite solo números
-    
-        if (timeInput.value < 1) {
-            timeInput.value = 1; // Establecer a 1 si el valor es menor o está vacío
-        }
-    });
-    
     // Temporizador
     let timeRemaining = habitTime * 60; // Convertir minutos a segundos
     const intervalId = setInterval(() => {
