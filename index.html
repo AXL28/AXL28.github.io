@@ -7,82 +7,104 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body id="app-body" class="bg-white font-sans">
     <div class="container mx-auto p-6">
-        <h1 class="text-3xl font-bold text-center">Habit Tracker - Nivel Up!</h1>
+        <h1 class="text-3xl font-bold text-center text-white">Habit Tracker - Nivel Up!</h1>
 
-        <!-- Sección de avatar -->
+        <!-- Sección de avatar y temas -->
         <div id="avatar" class="mt-6 flex flex-col items-center">
             <img src="images/default-avatar.png" id="user-avatar" class="w-24 h-24 rounded-full mb-4">
-            <select id="avatar-select" class="p-2 mt-2 rounded-md text-black">
-                <!-- Las opciones se llenarán dinámicamente desde app.js -->
+            <select id="avatar-select" class="mt-6 bg-gray-800 p-4 rounded-md text-white">
+                <!-- Las opciones de avatar se llenarán dinámicamente -->
+            </select>
+            <select id="theme-select" class="mt-6 bg-gray-800 p-4 rounded-md text-white">
+                <option value="0">Predeterminado</option>
+                <!-- Las opciones de temas se llenarán dinámicamente -->
             </select>
         </div>
-        
 
         <!-- Sección de nivel y progreso -->
-        <div class="mt-6 bg-gray-800 p-4 rounded-md text-center">
+        <div class="mt-6 bg-gray-800 p-4 rounded-md text-center text-white">
             <p class="text-lg">Nivel: <span id="level">1</span></p>
             <p class="text-lg">Puntos: <span id="points">0</span> / 100</p>
-            <div class="bg-gray-600 h-4 w-full rounded-full mt-2">
+            <div class="bg-gray-600 h-4 w-full rounded-full mt-2 text-white">
                 <div id="progress-bar" class="bg-green-400 h-4 rounded-full" style="width: 0%;"></div>
             </div>
         </div>
 
         <!-- Sección de rango -->
-        <div class="mt-6 bg-gray-800 p-4 rounded-md text-center">
+        <div class="mt-6 bg-gray-800 p-4 rounded-md text-center text-white">
             <p class="text-lg">Rango: <span id="rank">Principiante</span></p>
         </div>
 
         <!-- Formulario para agregar hábitos -->
         <div class="mt-6">
-            <input id="habit-input" type="text" placeholder="Agregar hábito" class="p-2 w-full rounded-md text-black">
-            <button id="add-habit-btn" class="mt-2 bg-blue-500 p-2 rounded-md w-full">Agregar Hábito</button>
+            <input id="habit-input" type="text" placeholder="Agregar hábito" class="bg-gray-800 p-2 w-full rounded-md text-white">
+            <div id="suggestion-box" class="bg-gray-800 rounded-md mt-2 p-2 max-h-40 overflow-y-auto text-white" style="display: none;">
+                <!-- Las sugerencias aparecerán aquí dinámicamente -->
+            </div>
+            <button id="add-habit-btn" class="mt-2 bg-blue-500 p-2 rounded-md w-full text-white">Agregar Hábito</button>
         </div>
 
         <!-- Campo para el tiempo en minutos -->
         <div class="mt-2">
-            <input id="time-input" type="number" placeholder="Tiempo en minutos" class="p-2 w-full rounded-md text-black" min="1">
+            <input id="time-input" type="number" placeholder="Tiempo en minutos" class="bg-gray-800 p-2 w-full rounded-md text-white" min="1">
         </div>
 
         <!-- Lista de hábitos -->
-        <ul id="habit-list" class="mt-6 space-y-2"></ul>
+        <ul id="habit-list" class="bg-gray-800 mt-6 space-y-2 text-white"></ul>
 
         <!-- Notificación de nivel -->
-        <div id="level-up-notification" class="hidden bg-yellow-400 text-black p-4 mt-6 rounded-md text-center">
+        <div id="level-up-notification" class="hidden bg-yellow-400 text-white p-4 mt-6 rounded-md text-center text-white">
             ¡Felicidades! Has subido de nivel.
         </div>
 
         <!-- Logros -->
-        <div id="achievements" class="mt-6 bg-gray-700 p-4 rounded-md">
+        <div id="achievements" class="mt-6 bg-gray-700 p-4 rounded-md text-white">
             <h2 class="text-xl font-bold">Logros</h2>
             <ul id="achievements-list" class="mt-2 space-y-2"></ul>
         </div>
 
-        <!-- Sección de la tienda (solo con avatares) -->
-        <div id="store" class="mt-6 bg-gray-800 p-4 rounded-md">
+        <!-- Sección de la tienda -->
+        <div id="store" class="mt-6 bg-gray-800 p-4 rounded-md text-white">
             <h2 class="text-xl font-bold">Tienda Virtual</h2>
             <p>Monedas: <span id="coins">0</span></p>
-            <ul id="store-items" class="mt-2 space-y-2">
-                <!-- Aquí se llenarán los items de la tienda dinámicamente desde app.js -->
+            <ul id="store-items" class="mt-2 space-y-2 text-white">
+                <!-- Los ítems de la tienda se llenarán dinámicamente -->
             </ul>
         </div>
 
-        <!-- Sección de historial -->
-        <div id="history" class="mt-6 bg-gray-800 p-4 rounded-md">
-            <h2 class="text-xl font-bold">Historial de Hábitos</h2>
-            <ul id="history-list" class="mt-2 space-y-2"></ul>
-        </div>
+    <!-- Sección de historial -->
+    <div id="history" class="mt-6 bg-gray-800 p-4 rounded-md text-white">
+        <h2 class="text-xl font-bold">Historial de Hábitos</h2>
+        <ul id="history-list" class="mt-2 space-y-2"></ul>
+    </div>
+
+    <!-- Estadísticas de Hábitos -->
+    <div id="habit-stats" class="mt-6 bg-gray-800 p-4 rounded-md text-white">
+        <h2 class="text-xl font-bold">Estadísticas de Hábitos</h2>
+        <canvas id="habit-chart" class="mt-4"></canvas>
+        <select id="time-range" class="mt-4 bg-gray-800 p-2 rounded-md text-white">
+            <option value="day">Diario</option>
+            <option value="week">Semanal</option>
+            <option value="month">Mensual</option>
+            <option value="year">Anual</option>
+        </select>
+    </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
 
         <!-- Botón para reiniciar progreso -->
-        <button id="reset-progress-btn" class="mt-4 bg-red-500 p-2 rounded-md w-full">Reiniciar Todo el Progreso</button>
-
+        <button id="reset-progress-btn" class="mt-4 bg-red-500 p-2 rounded-md w-full text-white">Reiniciar Todo el Progreso</button>
     </div>
 
     <!-- Archivos de audio para los sonidos -->
     <audio id="complete-sound" src="complete.mp3"></audio>
     <audio id="level-up-sound" src="level-up.mp3"></audio>
 
+    <!-- Librería Fuse.js desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
     <!-- Script principal -->
     <script src="app.js"></script>
 </body>
