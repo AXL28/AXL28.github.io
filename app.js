@@ -569,30 +569,34 @@ function getHabitsByDay() {
 
 function getHabitsByWeek() {
     const now = new Date();
-    const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay() + 1)); // Ajustar al lunes de la semana actual
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay() + 1); // Lunes de la semana actual
+    startOfWeek.setHours(0, 0, 0, 0); // Asegurarse de que sea exactamente a la medianoche
+
     const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // Ajustar al domingo de la misma semana
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Domingo de la misma semana
+    endOfWeek.setHours(23, 59, 59, 999); // Hasta el final del domingo
 
     const counts = {};
+
+    // Iterar sobre el historial y verificar si la fecha está dentro del rango semanal
     history.forEach(entry => {
         const habitDate = new Date(entry.date);
         if (habitDate >= startOfWeek && habitDate <= endOfWeek) {
-            const dateString = habitDate.toDateString();
-            counts[dateString] = (counts[dateString] || 0) + 1;
+            const day = habitDate.toLocaleDateString('default', { weekday: 'long' }); // Día de la semana (Ej: Lunes)
+            counts[day] = (counts[day] || 0) + 1;
         }
     });
 
-    // Asegurar días sin registros en la semana actual
-    for (let i = 0; i < 7; i++) {
-        const day = new Date(startOfWeek);
-        day.setDate(day.getDate() + i);
-        const dayString = day.toDateString();
-        if (!counts[dayString]) counts[dayString] = 0;
-    }
+    // Asegurar que todos los días de la semana aparecen, incluso sin registros
+    const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    weekDays.forEach(day => {
+        if (!counts[day]) counts[day] = 0;
+    });
 
     return counts;
-
 }
+
 function getHabitsByMonth() {
     const now = new Date();
     const year = now.getFullYear();
@@ -663,8 +667,8 @@ function updateHabitChart(range) {
             habitData = {};
     }
 
-    const labels = Object.keys(habitData).sort((a, b) => new Date(a) - new Date(b)); // Ordenar fechas
-    const data = labels.map(date => habitData[date]);
+    const labels = Object.keys(habitData); // Etiquetas: Días de la semana, días del mes, etc.
+    const data = labels.map(day => habitData[day]);
 
     if (habitChart) {
         habitChart.destroy(); // Destruye el gráfico anterior
@@ -687,7 +691,11 @@ function updateHabitChart(range) {
             responsive: true,
             scales: {
                 x: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Día de la Semana'
+                    }
                 },
                 y: {
                     beginAtZero: true
