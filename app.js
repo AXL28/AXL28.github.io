@@ -621,25 +621,22 @@ function getHabitsByMonth() {
 }
 
 function getHabitsByYear() {
-    const now = new Date();
-    const year = now.getFullYear();
-
     const counts = {};
+
+    // Iterar sobre el historial y agrupar por año
     history.forEach(entry => {
         const habitDate = new Date(entry.date);
-        if (habitDate.getFullYear() === year) {
-            const month = habitDate.getMonth() + 1; // Incrementar para que el mes se muestre como 1-12 en lugar de 0-11
-            counts[month] = (counts[month] || 0) + 1;
-        }
+        const year = habitDate.getFullYear(); // Extraer el año
+        counts[year] = (counts[year] || 0) + 1; // Incrementar el contador para ese año
     });
 
-    // Asegurar que todos los meses del año aparecen
-    for (let i = 1; i <= 12; i++) {
-        if (!counts[i]) counts[i] = 0;
-    }
+    // Asegurar que al menos el año actual aparece, incluso si no hay registros
+    const currentYear = new Date().getFullYear();
+    if (!counts[currentYear]) counts[currentYear] = 0;
 
     return counts;
 }
+
 
 // Evento para cambiar el rango de tiempo
 document.getElementById('time-range').addEventListener('change', (e) => {
@@ -667,8 +664,8 @@ function updateHabitChart(range) {
             habitData = {};
     }
 
-    const labels = Object.keys(habitData); // Etiquetas: Días de la semana, días del mes, etc.
-    const data = labels.map(day => habitData[day]);
+    const labels = Object.keys(habitData); // Etiquetas (días, semanas, etc.)
+    const data = labels.map(label => habitData[label]); // Datos para la gráfica
 
     if (habitChart) {
         habitChart.destroy(); // Destruye el gráfico anterior
@@ -678,10 +675,10 @@ function updateHabitChart(range) {
     habitChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: labels,
+            labels: labels, // Etiquetas del eje X
             datasets: [{
                 label: 'Hábitos Completados',
-                data: data,
+                data: data, // Valores correspondientes
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
@@ -694,11 +691,20 @@ function updateHabitChart(range) {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Día de la Semana'
                     }
                 },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1, // Incrementos de 1 en el eje Y
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : ''; // Mostrar solo números enteros
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Hábitos Completados'
+                    }
                 }
             }
         }
