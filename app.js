@@ -570,20 +570,20 @@ function getHabitsByDay() {
 function getHabitsByWeek() {
     const now = new Date();
     const startOfWeek = new Date(now);
-    startOfWeek.setDate(now.getDate() - now.getDay() + 1); // Lunes de la semana actual
-    startOfWeek.setHours(0, 0, 0, 0); // Asegurarse de que sea exactamente a la medianoche
+    startOfWeek.setDate(now.getDate() - now.getDay() + 1); // Ajustar al lunes de la semana actual
+    startOfWeek.setHours(0, 0, 0, 0);
 
     const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6); // Domingo de la misma semana
-    endOfWeek.setHours(23, 59, 59, 999); // Hasta el final del domingo
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // Ajustar al domingo de la semana actual
+    endOfWeek.setHours(23, 59, 59, 999);
 
     const counts = {};
 
-    // Iterar sobre el historial y verificar si la fecha está dentro del rango semanal
+    // Iterar sobre el historial y contar los hábitos por día en inglés
     history.forEach(entry => {
         const habitDate = new Date(entry.date);
         if (habitDate >= startOfWeek && habitDate <= endOfWeek) {
-            const day = habitDate.toLocaleDateString('default', { weekday: 'long' }); // Día de la semana (Ej: Lunes)
+            const day = habitDate.toLocaleDateString('en-US', { weekday: 'long' }); // Forzar idioma inglés
             counts[day] = (counts[day] || 0) + 1;
         }
     });
@@ -591,11 +591,12 @@ function getHabitsByWeek() {
     // Asegurar que todos los días de la semana aparecen, incluso sin registros
     const weekDays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     weekDays.forEach(day => {
-        if (!counts[day]) counts[day] = 0;
+        if (!counts[day]) counts[day] = 0; // Asegurar que los días sin registros tengan valor 0
     });
 
     return counts;
 }
+
 
 function getHabitsByMonth() {
     const now = new Date();
@@ -664,8 +665,12 @@ function updateHabitChart(range) {
             habitData = {};
     }
 
-    const labels = Object.keys(habitData); // Etiquetas (días, semanas, etc.)
-    const data = labels.map(label => habitData[label]); // Datos para la gráfica
+    // Para la semana: Usar un orden fijo de días en inglés
+    const labels = range === 'week'
+        ? ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+        : Object.keys(habitData);
+
+    const data = labels.map(label => habitData[label] || 0); // Alinear datos con las etiquetas
 
     if (habitChart) {
         habitChart.destroy(); // Destruye el gráfico anterior
@@ -691,6 +696,7 @@ function updateHabitChart(range) {
                     beginAtZero: true,
                     title: {
                         display: true,
+                        text: 'Fecha'
                     }
                 },
                 y: {
